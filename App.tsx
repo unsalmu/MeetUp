@@ -1,28 +1,32 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+// App.tsx
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+// Import your screens
+import OnboardingScreen from './src/screens/OnboardingScreen';
+// …other screens
 
-function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+// Define the shape of your navigation stack
+export type RootStackParamList = {
+  Onboarding: undefined;
+  SignIn:      undefined;
+  // …other screens
+};
 
+// Create the Stack
+const Stack = createStackNavigator<RootStackParamList>();
+
+export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <NewAppScreen templateFileName="App.tsx" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator
+        initialRouteName="Onboarding"
+        screenOptions={{ headerShown: false }}
+      >
+        <Stack.Screen name="Onboarding" component={OnboardingScreen} />
+        {/* add more screens here as you build them */}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
-
-export default App;
