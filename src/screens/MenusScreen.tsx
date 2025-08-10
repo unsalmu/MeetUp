@@ -5,8 +5,8 @@ import { RootStackParamList } from '../navigation/types';
 
 type Props = StackScreenProps<RootStackParamList, 'Menus'>;
 
-const Row = ({ title, text, count }: { title: string; text: string; count?: number }) => (
-  <TouchableOpacity style={styles.row}>
+const Row = ({ title, text, count, onPress }: { title: string; text: string; count?: number; onPress: () => void; }) => (
+  <TouchableOpacity style={styles.row} onPress={onPress}>
     <View style={styles.rowTextContainer}>
       <Text style={styles.rowTitle}>{title}</Text>
       <Text style={styles.rowSubtitle}>{text}</Text>
@@ -32,42 +32,51 @@ export default function MenusScreen({ navigation }: Props) {
             <Text style={styles.name}>John Doe</Text>
             <Text style={styles.username}>@johndoe</Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigation.navigate('Profile', { userId: 'currentUserId' })}>
             <Text style={styles.arrow}>&gt;</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.stats}>
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>0</Text>
-            <Text style={styles.statLabel}>Posts</Text>
-          </View>
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>0</Text>
-            <Text style={styles.statLabel}>Followers</Text>
-          </View>
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>0</Text>
-            <Text style={styles.statLabel}>Following</Text>
-          </View>
+          <TouchableOpacity>
+            <View style={styles.statItem}>
+              <Text style={styles.statNumber}>0</Text>
+              <Text style={styles.statLabel}>Posts</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.replace('Followers')}>
+            <View style={styles.statItem}>
+              <Text style={styles.statNumber}>0</Text>
+              <Text style={styles.statLabel}>Followers</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View style={styles.statItem}>
+              <Text style={styles.statNumber}>0</Text>
+              <Text style={styles.statLabel}>Following</Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.menuSection}>
-          <Row title="Notification" text="See your recent activity." count={35} />
-          <Row title="Friends" text="Friendliest totals" />
-          <Row title="Messages" text="Message your friends" count={2} />
-          <Row title="Albums" text="Save or post your albums" />
-          <Row title="Favorites" text="Friends you love" />
+          <Row title="Notification" text="See your recent activity." count={35} onPress={() => navigation.navigate('Notification')} />
+          <Row title="Friends" text="Friendliest totals" onPress={() => navigation.navigate('Followers')}/>
+          <Row title="Messages" text="Message your friends" count={2} onPress={() => navigation.navigate('Chat',  {
+      chatId: '123',            // some real ID from your data
+      userName: 'johndoe',      // or whatever username you want to display
+    })} />
+          <Row title="Contacts" text="See your contacts" onPress={() => navigation.navigate('PhoneBook')} />
+          <Row title="Favorites" text="Friends you love" onPress={() => navigation.navigate('Notification')} />
         </View>
 
         <View style={styles.divider} />
 
         <View style={styles.menuSection}>
-          <Row title="Privacy Policy" text="Protect your privacy" />
+          <Row title="Privacy Policy" text="Protect your privacy" onPress={() => navigation.navigate('Notification')}/>
         </View>
 
         <TouchableOpacity style={styles.logoutButton}
-        onPress={() => navigation.replace('Onboarding')}>
+          onPress={() => navigation.replace('Onboarding')}>
           <Text style={styles.logoutText}>Log out</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -76,127 +85,127 @@ export default function MenusScreen({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { 
-    flex: 1, 
-    backgroundColor: '#fff' 
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff'
   },
-  container: { 
-    flex: 1 
+  container: {
+    flex: 1
   },
-  contentContainer: { 
+  contentContainer: {
     flexGrow: 1,
     padding: 16,
-    paddingBottom: 32 
+    paddingBottom: 32
   },
-  header: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 24,
-    paddingTop: 8 
+    paddingTop: 8
   },
-  avatar: { 
-    width: 60, 
-    height: 60, 
-    borderRadius: 30, 
-    backgroundColor: '#e0e0e0' 
+  avatar: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#e0e0e0'
   },
-  headerInfo: { 
-    flex: 1, 
-    marginLeft: 16 
+  headerInfo: {
+    flex: 1,
+    marginLeft: 16
   },
-  name: { 
-    fontSize: 18, 
+  name: {
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 2 
+    marginBottom: 2
   },
-  username: { 
+  username: {
     color: '#666',
-    fontSize: 14 
+    fontSize: 14
   },
-  arrow: { 
-    fontSize: 20, 
-    color: '#999', 
-    marginLeft: 8 
+  arrow: {
+    fontSize: 20,
+    color: '#999',
+    marginLeft: 8
   },
-  stats: { 
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
+  stats: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: 32,
     paddingVertical: 16,
     backgroundColor: '#f8f9fa',
     borderRadius: 12,
-    paddingHorizontal: 16 
+    paddingHorizontal: 16
   },
-  statItem: { 
-    alignItems: 'center', 
-    flex: 1 
+  statItem: {
+    alignItems: 'center',
+    flex: 1
   },
-  statNumber: { 
-    fontWeight: 'bold', 
+  statNumber: {
+    fontWeight: 'bold',
     fontSize: 20,
-    marginBottom: 4 
+    marginBottom: 4
   },
-  statLabel: { 
+  statLabel: {
     color: '#666',
-    fontSize: 12 
+    fontSize: 12
   },
   menuSection: {
-    marginBottom: 16 
+    marginBottom: 16
   },
-  row: { 
-    flexDirection: 'row', 
-    alignItems: 'center', 
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 16,
     paddingHorizontal: 4,
-    borderRadius: 8 
+    borderRadius: 8
   },
-  rowTextContainer: { 
-    flex: 1 
+  rowTextContainer: {
+    flex: 1
   },
-  rowTitle: { 
-    fontSize: 16, 
+  rowTitle: {
+    fontSize: 16,
     fontWeight: '600',
-    marginBottom: 2 
+    marginBottom: 2
   },
-  rowSubtitle: { 
-    color: '#666', 
-    fontSize: 13 
+  rowSubtitle: {
+    color: '#666',
+    fontSize: 13
   },
-  rowRight: { 
-    flexDirection: 'row', 
-    alignItems: 'center' 
+  rowRight: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-  badge: { 
-    backgroundColor: '#28a745', 
-    borderRadius: 12, 
+  badge: {
+    backgroundColor: '#28a745',
+    borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 2,
     marginRight: 8,
     minWidth: 24,
-    alignItems: 'center' 
+    alignItems: 'center'
   },
-  badgeText: { 
-    color: '#fff', 
+  badgeText: {
+    color: '#fff',
     fontSize: 12,
-    fontWeight: '600' 
+    fontWeight: '600'
   },
-  divider: { 
-    height: 1, 
-    backgroundColor: '#e9ecef', 
-    marginVertical: 16 
+  divider: {
+    height: 1,
+    backgroundColor: '#e9ecef',
+    marginVertical: 16
   },
-  logoutButton: { 
-    marginTop: 24, 
-    alignItems: 'center', 
-    paddingVertical: 16, 
+  logoutButton: {
+    marginTop: 24,
+    alignItems: 'center',
+    paddingVertical: 16,
     backgroundColor: '#f8f9fa',
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#dc3545' 
+    borderColor: '#dc3545'
   },
-  logoutText: { 
-    fontWeight: '600', 
+  logoutText: {
+    fontWeight: '600',
     color: '#dc3545',
-    fontSize: 16 
+    fontSize: 16
   },
 });

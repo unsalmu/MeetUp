@@ -8,21 +8,11 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/types';
 
 const { width, height } = Dimensions.get('window');
 
-type OnboardingScreenNavigationProp = StackNavigationProp<
-  RootStackParamList,
-  'Onboarding'
->;
 
-interface Props {
-  navigation: OnboardingScreenNavigationProp;
-}
-
-export default function OnboardingScreen({ navigation }: Props) {
+function OnboardingScreen(props) {
   return (
     <View style={styles.container}>
       <Image
@@ -42,7 +32,7 @@ export default function OnboardingScreen({ navigation }: Props) {
       <TouchableOpacity
         style={styles.button}
         activeOpacity={0.8}
-        onPress={() => navigation.replace('SignIn')}
+        onPress={() => props.navigation.navigate('SignIn')}
       >
         <Text style={styles.buttonText}>Get started</Text>
       </TouchableOpacity>
@@ -64,8 +54,8 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     padding: 24,
-    flex: 1,
     justifyContent: 'center',
+    flex: 1
   },
   title: {
     fontSize: 28,
@@ -93,3 +83,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 });
+
+
+export default OnboardingScreen

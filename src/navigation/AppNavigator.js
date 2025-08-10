@@ -14,13 +14,15 @@ import TimelineScreen from '../screens/TimelineScreen';
 import CommentsScreen from '../screens/CommentsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import MenusScreen from '../screens/MenusScreen';
+import SplashScreen from '../screens/SplashScreen';
 
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator();
 
 export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="Onboarding" component={OnboardingScreen} />
         <Stack.Screen name="SignIn" component={SignInScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
@@ -32,8 +34,6 @@ export default function AppNavigator() {
         <Stack.Screen name="Comments" component={CommentsScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Menus" component={MenusScreen} />
-
-
       </Stack.Navigator>
     </NavigationContainer>
   );

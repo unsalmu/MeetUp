@@ -1,5 +1,5 @@
 // src/screens/SignInScreen.tsx
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,26 +9,29 @@ import {
   Dimensions,
   SafeAreaView,
 } from 'react-native';
-import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/types';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle, faFacebook } from '@fortawesome/free-brands-svg-icons';
 
 
-type Props = StackScreenProps<RootStackParamList, 'SignIn'>;
 
 const { width } = Dimensions.get('window');
 
-export default function SignInScreen({ navigation }: Props) {
+export default function SignInScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    console.log('useEffect ile çalıştım')
+    
+  }, [email])
+  
 
   return (
     <SafeAreaView style={styles.container}>
       {/* Top bar with back arrow */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => props.navigation.goBack()}>
         <FontAwesomeIcon icon={faArrowLeft} size={24} color="#fff" />
         </TouchableOpacity>
       </View>
@@ -54,11 +57,12 @@ export default function SignInScreen({ navigation }: Props) {
           placeholder="Enter your password"
           placeholderTextColor="#999"
           secureTextEntry
+          keyboardType={'numeric'}
           value={password}
           onChangeText={setPassword}
         />
 
-        <TouchableOpacity onPress={() => {/* TODO: handle forgot */}}>
+        <TouchableOpacity onPress={() => console.log('selmammm')}>
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
 
@@ -66,7 +70,7 @@ export default function SignInScreen({ navigation }: Props) {
         <TouchableOpacity
           style={styles.signInBtn}
           activeOpacity={0.8}
-          onPress={() => navigation.replace('Menus')} // or 'Home' etc.
+          onPress={() => props.navigation.navigate('Menus')} // or 'Home' etc.
         >
           <Text style={styles.signInText}>Sign In</Text>
         </TouchableOpacity>
